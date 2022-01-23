@@ -6,6 +6,7 @@ const Context = createContext();
 
 const Provider = ({ children }) => {
   const [user, setUser] = useState(supabase.auth.user());
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const Provider = ({ children }) => {
           ...sessionUser,
           ...profile,
         });
+        setIsLoading(false);
       }
     };
 
@@ -45,6 +47,7 @@ const Provider = ({ children }) => {
     user,
     login,
     logout,
+    isLoading,
   };
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
 };
