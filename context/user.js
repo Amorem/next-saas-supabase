@@ -9,7 +9,24 @@ const Provider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange(() => setUser(supabase.auth.user()));
+    const getUserProfile = async () => {
+      const sessionUser = supabase.auth.user();
+      if (sessionUser) {
+        const { data: profile } = await supabase
+          .from("profile")
+          .select("*")
+          .eq("id", sessionUser.id)
+          .single();
+        setUser({
+          ...sessionUser,
+          ...profile,
+        });
+      }
+    };
+
+    getUserProfile();
+
+    supabase.auth.onAuthStateChange(() => getUserProfile());
   }, []);
 
   const login = async () => {
