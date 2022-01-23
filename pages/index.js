@@ -1,5 +1,6 @@
 import { supabase } from "../utils/supabase";
 import Link from "next/link";
+import { useUser } from "../context/user";
 
 export const getStaticProps = async () => {
   const { data: lessons } = await supabase.from("lesson").select("*");
@@ -11,9 +12,8 @@ export const getStaticProps = async () => {
 };
 
 export default function Home({ lessons }) {
-  // console.log("supabase", supabase.auth.user());
-  // console.log("lessons", lessons);
-
+  const { user } = useUser();
+  console.log("user", user);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       {lessons.map((lesson) => (
