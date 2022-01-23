@@ -25,7 +25,7 @@ export async function getStaticProps({ params: { id } }) {
 }
 
 export default function LessonDetails({ lesson }) {
-  console.log("lesson", lesson);
+  //   console.log("lesson", lesson);
   return (
     <div className="w-full max-w-3xl px-8 py-16 mx-auto">
       <h1 className="mb-6 text-3xl">{lesson.title}</h1>

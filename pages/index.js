@@ -11,7 +11,9 @@ export const getStaticProps = async () => {
 };
 
 export default function Home({ lessons }) {
+  console.log("supabase", supabase.auth.user());
   console.log("lessons", lessons);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       {lessons.map((lesson) => (
