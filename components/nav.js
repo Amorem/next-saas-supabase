@@ -1,0 +1,19 @@
+import Link from "next/link";
+import { useUser } from "../context/user";
+
+export default function Nav() {
+  const { user } = useUser();
+  return (
+    <nav className="flex px-6 py-4 border-b border-gray-200">
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      <Link href="/pricing">
+        <a className="ml-2">Pricing</a>
+      </Link>
+      <Link href={user ? "/logout" : "/login"}>
+        <a className="ml-auto">{user ? "Logout" : "Login"}</a>
+      </Link>
+    </nav>
+  );
+}
