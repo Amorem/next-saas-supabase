@@ -1,6 +1,6 @@
 import { withCoalescedInvoke } from "next/dist/lib/coalesced-function";
 import initStripe from "stripe";
-import { supabase } from "../../utils/supabase";
+import { getServiceSupabase } from "../../utils/supabase";
 
 export default async function handler(req, res) {
   //   console.log("called", req.query, process.env.API_ROUTE_SECRET);
@@ -13,6 +13,8 @@ export default async function handler(req, res) {
   const customer = await stripe.customers.create({
     email: req.body.record.email,
   });
+
+  const supabase = getServiceSupabase();
 
   await supabase
     .from("profile")
