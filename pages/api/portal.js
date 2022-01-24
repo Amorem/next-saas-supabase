@@ -24,7 +24,7 @@ const handler = async (req, res) => {
   const stripe = initStripe(process.env.STRIPE_SECRET_KEY);
   const session = await stripe.billingPortal.sessions.create({
     customer: stripe_customer,
-    return_url: "http://localhost:3001/dashboard",
+    return_url: `${process.env.CLIENT_URL}/dashboard`,
   });
   res.send({ url: session.url });
 };
