@@ -1,11 +1,22 @@
+import axios from "axios";
 import initStripe from "stripe";
 import { useUser } from "../context/user";
 
 export default function Pricing({ plans }) {
   const { user, login, isLoading } = useUser();
+  const processSubscription = (planId) => async () => {
+    const { data } = await axios.get(`/api/subscription/${planId}`);
+    console.log("data", data);
+  };
   const showSubscribeButton = !!user && !user.is_subscribed;
   const showCreateAccountButton = !user;
   const showManageSubscriptionButton = !!user && user.is_subscribed;
+  console.log(
+    showCreateAccountButton,
+    showSubscribeButton,
+    showManageSubscriptionButton,
+    isLoading
+  );
   return (
     <div className="flex justify-around w-full max-w-3xl py-16 mx-auto">
       {plans.map((plan) => (
@@ -16,7 +27,11 @@ export default function Pricing({ plans }) {
           </p>
           {!isLoading && (
             <div>
-              {showSubscribeButton && <button>Subscribe</button>}
+              {showSubscribeButton && (
+                <button onClick={processSubscription(plan.id)}>
+                  Subscribe
+                </button>
+              )}
               {showCreateAccountButton && (
                 <button onClick={login}>Create Account</button>
               )}
