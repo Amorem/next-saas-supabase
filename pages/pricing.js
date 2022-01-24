@@ -1,5 +1,6 @@
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
+import Link from "next/link";
 import initStripe from "stripe";
 import { useUser } from "../context/user";
 
@@ -14,12 +15,7 @@ export default function Pricing({ plans }) {
   const showSubscribeButton = !!user && !user.is_subscribed;
   const showCreateAccountButton = !user;
   const showManageSubscriptionButton = !!user && user.is_subscribed;
-  // console.log(
-  //   showCreateAccountButton,
-  //   showSubscribeButton,
-  //   showManageSubscriptionButton,
-  //   isLoading
-  // );
+
   return (
     <div className="flex justify-around w-full max-w-3xl py-16 mx-auto">
       {plans.map((plan) => (
@@ -39,7 +35,9 @@ export default function Pricing({ plans }) {
                 <button onClick={login}>Create Account</button>
               )}
               {showManageSubscriptionButton && (
-                <button>Manage Subscription</button>
+                <Link href="/dashboard">
+                  <a>Manage Subscription</a>
+                </Link>
               )}
             </div>
           )}
