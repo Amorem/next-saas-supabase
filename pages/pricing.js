@@ -1,4 +1,5 @@
 import axios from "axios";
+import { loadStripe } from "@stripe/stripe-js";
 import initStripe from "stripe";
 import { useUser } from "../context/user";
 
@@ -6,17 +7,19 @@ export default function Pricing({ plans }) {
   const { user, login, isLoading } = useUser();
   const processSubscription = (planId) => async () => {
     const { data } = await axios.get(`/api/subscription/${planId}`);
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
+    await stripe.redirectToCheckout({ sessionId: data.id });
     console.log("data", data);
   };
   const showSubscribeButton = !!user && !user.is_subscribed;
   const showCreateAccountButton = !user;
   const showManageSubscriptionButton = !!user && user.is_subscribed;
-  console.log(
-    showCreateAccountButton,
-    showSubscribeButton,
-    showManageSubscriptionButton,
-    isLoading
-  );
+  // console.log(
+  //   showCreateAccountButton,
+  //   showSubscribeButton,
+  //   showManageSubscriptionButton,
+  //   isLoading
+  // );
   return (
     <div className="flex justify-around w-full max-w-3xl py-16 mx-auto">
       {plans.map((plan) => (
